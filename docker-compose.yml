@@ -1,0 +1,25 @@
+name: smarthire
+services:
+  db:
+    image: mongodb/mongodb-community-server
+    env_file: .env
+    volumes:
+      - db-data:/data/db
+    ports:
+      - "27017:27017"
+  
+  backend:
+    build: ./backend
+    env_file: .env
+    depends_on:
+      - db
+    
+  frontend:
+    build: ./frontend
+    env_file: .env
+    depends_on:
+      - db
+      - backend
+
+volumes:
+  db-data:
